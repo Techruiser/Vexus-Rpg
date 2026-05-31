@@ -1558,7 +1558,8 @@
 
             async function uploadImage(file) {
                 // Check file size (max 5MB)
-                if(file.size > 5 * 1024 * 1024) throw new Error('Imagem muito grande (máx 5MB)');
+                if (file.size > 5 * 1024 * 1024)
+                    throw new Error("Imagem muito grande (máx 5MB)");
                 const {
                     storage,
                     ref: sref,
