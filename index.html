@@ -1557,6 +1557,8 @@
             }
 
             async function uploadImage(file) {
+                // Check file size (max 5MB)
+                if(file.size > 5 * 1024 * 1024) throw new Error('Imagem muito grande (máx 5MB)');
                 const {
                     storage,
                     ref: sref,
@@ -2563,6 +2565,9 @@
         <div class="field"><label>Email</label><input type="email" id="r-email"></div>
         <div class="field"><label>Senha</label><input type="password" id="r-pass"></div>
         <button class="btn btn-solid" id="r-submit"><span>Criar Conta</span></button>
+      <p style="font-size:12px;color:var(--text3);font-style:italic;text-align:center;margin-top:8px">
+        ⚠ Após criar sua conta, aguarde o administrador verificá-la antes de fazer login.
+      </p>
       </div>
     </div>
   </div>`;
