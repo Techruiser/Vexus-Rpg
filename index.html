@@ -2934,7 +2934,7 @@
                     .getElementById("new-sheet-btn")
                     ?.addEventListener("click", () => {
                         S.currentSheet = null;
-                        S.editData = {};
+                        S.editData = { playerUid: null };
                         S.activeTab = "basics";
                         S.view = "sheet-editor";
                         render();
@@ -2946,7 +2946,8 @@
                         S.currentSheet = S.sheets.find(
                             (x) => x.id === el.dataset.sid,
                         );
-                        S.editData = { ...S.currentSheet };
+                        // Deep copy to avoid stale data from previous sheet
+                        S.editData = JSON.parse(JSON.stringify(S.currentSheet));
                         S.activeTab = "basics";
                         S.view = "sheet-editor";
                         render();
@@ -3006,9 +3007,16 @@
                                 S.currentSheet?.id,
                                 data,
                             );
-                            S.currentSheet = { ...data, id };
-                            toast("Ficha salva! ✦");
+                            // Reload sheets to get fresh data from Firestore
                             await loadSheets(S.currentCampaign.id);
+                            // Update currentSheet with saved data
+                            S.currentSheet = S.sheets.find(
+                                (x) => x.id === id,
+                            ) || { ...data, id };
+                            S.editData = JSON.parse(
+                                JSON.stringify(S.currentSheet),
+                            );
+                            toast("Ficha salva! ✦");
                         } catch (e) {
                             toast("Erro: " + e.message, "error");
                         }
