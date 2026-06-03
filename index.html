@@ -1571,12 +1571,10 @@
                 const all = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
                 const isMaster =
                     S.isAdmin || S.currentCampaign?.masterUid === S.user?.uid;
-                // Players only see their own sheet or unassigned sheets
+                // Players only see sheets assigned specifically to them
                 S.sheets = isMaster
                     ? all
-                    : all.filter(
-                          (s) => !s.playerUid || s.playerUid === S.user?.uid,
-                      );
+                    : all.filter((s) => s.playerUid === S.user?.uid);
             }
 
             async function saveCampaign(id, data) {
